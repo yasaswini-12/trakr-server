@@ -1,0 +1,16 @@
+version: '3'
+services:
+        trakr_server:
+                build:
+                        context: .
+                command: sh run_gpu.sh -w 2 -t 300 -d "cpu"
+                ports:
+                        - "10230:10230"
+        nginx:
+                image: nginx:latest
+                volumes:
+                        - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+                depends_on:
+                        - trakr_server
+                ports:
+                        - "80:80"
